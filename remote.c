@@ -31,7 +31,7 @@ void remote (int argc, char* argv[]) {
 				//TODO FILEDEF DU PERE
 
 				for(i = 0; argv[nbArg][i] != 0; i++);
-				if(tab[tabAllocated - 1].filename = malloc(i * sizeof(char)))
+				if(tab[tabAllocated - 1].filename = malloc(i * sizeof(char)) < 0)
 					exit(-1)
 				for(i--; i >= 0; i--)
 					tab[tabAllocated - 1].filename[i] = argv[nbArg][i];
