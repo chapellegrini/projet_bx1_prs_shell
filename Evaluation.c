@@ -8,11 +8,8 @@
 #include <fcntl.h>
 
 
-void
-verifier(int cond, char *s)
-{
-  if (!cond)
-    {
+void verifier(int cond, char *s){
+  if (!cond){
       perror(s);
       exit(1);
     }
@@ -21,7 +18,8 @@ verifier(int cond, char *s)
 void cmd(char **arg){
   extern char **environ;
 
-  execve(arg[0], arg, environ);
+  execvp(arg[0], arg);
+  //execve(arg[0], arg, environ);
   perror("exec");
   exit(1);
 }
@@ -29,30 +27,50 @@ void cmd(char **arg){
 
 int evaluer_expr(Expression *e){
   pid_t sonPid;
+  int status;
 
   sonPid = fork();
   if(!sonPid)
-    exec_expr(e);
+    exit(exec_expr(e));
   else
-    waitpid(sonPid, 0, 0);
-  return 1;
+    waitpid(sonPid, &status, 0);
+  return status;
 }
 
 int exec_expr(Expression *e){
   int fd;
   int pipefd[2];
+  int r;
   pid_t sonPid;
 
   if(e->type == SIMPLE){
     cmd(e->arguments);
   }
-  else if(e->type == REDIRECTION_O){
+  else if(e->type == REDIRECTION_O){ // >
     fd = open(e->arguments[0], O_CREAT | O_WRONLY, 0644);// WIP?
+    dup2(fd, 1);
+    close(fd);
+    return exec_expr(e->gauche);
+  }
+  else if(e->type == REDIRECTION_A){ // >>
+    fd = open(e->arguments[0], O_APPEND);// WIP?
     dup2(fd, 1);
     close(fd);
     exec_expr(e->gauche);
   }
-  else if(e->type == PIPE){
+  else if(e->type == REDIRECTION_O){ // 2>
+    fd = open(e->arguments[0], O_CREAT | O_WRONLY, 0644);// WIP?
+    dup2(fd, 2);
+    close(fd);
+    exec_expr(e->gauche);
+  }
+  else if(e->type == REDIRECTION_I){ // <
+    fd = open(e->arguments[0], O_RDONLY);
+    dup2(fd, 0);
+    close(fd);
+    exec_expr(e->gauche);
+  }
+  else if(e->type == PIPE){ // |
     pipe(pipefd);
     sonPid = fork();
     if(!sonPid){
@@ -68,7 +86,29 @@ int exec_expr(Expression *e){
       exec_expr(e->droite);
     }
   }
-  return 1;
+  else if(e->type == BG){ // &
+    pid_t sonPid;
+    sonPid = fork();
+    if(!sonPid)
+      exec_expr(e);//TODO récupéré par init?
+    return sonPid;
+  }
+  else if(e->type == SEQUENCE){ // ;
+    evaluer_expr(e->gauche);
+    exec_expr(e->droite);
+  }
+  else if(e->type == SEQUENCE_ET){ // &&
+    r = evaluer_expr(e->gauche);
+    if(r == 0)
+      return exec_expr(e->droite);
+    return r;
+  }
+  else if(e->type == SEQUENCE_OU){ // ||
+    if(evaluer_expr(e->gauche) == 0)
+      return 0;
+    return exec_expr(e->droite);
+  }
+  else if(e->type == SOUS_SHELL){ // ()
+    return evaluer_expr(e->gauche);
+  }
 }
-
-
