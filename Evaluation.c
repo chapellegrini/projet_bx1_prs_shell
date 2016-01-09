@@ -12,15 +12,42 @@ void verifier(int cond, char *s){
   if (!cond){
       perror(s);
       exit(1);
-    }
+  }
 }
 
 void cmd(char **arg){
   extern char **environ;
 
-  execvp(arg[0], arg);
-  //execve(arg[0], arg, environ);
-  perror("exec");
+  if(!strcmp(arg[0], "echo")){
+    cmdEcho(&(arg[1]));
+    printf("test\n");
+  }
+//  else if(!strcmp(arg[0], "date")){
+
+//  }
+  else if(!strcmp(arg[0], "cd")){
+
+  }
+  else if(!strcmp(arg[0], "pwd")){
+
+  }
+//  else if(!strcmp(arg[0], "history")){
+
+//  }
+//  else if(!strcmp(arg[0], "hostname")){
+
+//  }
+  else if(!strcmp(arg[0], "kill")){
+
+  }
+  else if(!strcmp(arg[0], "exit")){
+
+  }
+  else{
+    execvp(arg[0], arg);
+    //execve(arg[0], arg, environ);
+    perror("exec");
+  }
   exit(1);
 }
 
