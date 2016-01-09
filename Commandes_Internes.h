@@ -4,4 +4,7 @@
 
 void cmdExit(char** c);
 void cmdKill(char** c);
+void cmdEcho(char** c);
+void cmdCd(char** c);
+void cmdPwd(char** c);
 #endif
