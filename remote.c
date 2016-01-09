@@ -26,15 +26,26 @@ void remote (int argc, char* argv[]) {
 			tab[tabAllocated - 1].pid = fork();
 			if(tab[tabAllocated - 1].pid == 0){
 				//TODO IAMTHESON
+				dup2()
 			} 
 			else{
 				//TODO FILEDEF DU PERE
 
 				for(i = 0; argv[nbArg][i] != 0; i++);
-				if(tab[tabAllocated - 1].filename = malloc(i * sizeof(char)) < 0)
-					exit(-1)
+				if((tab[tabAllocated - 1].filename = malloc(i * sizeof(char))) < 0)
+					exit(-1);
 				for(i--; i >= 0; i--)
 					tab[tabAllocated - 1].filename[i] = argv[nbArg][i];
 			}
+	}
+
+	if (strcmp(argv[2], "remove") == 0) {
+		free(tab);
+	}
+
+	if (strcmp(argv[2], "list") == 0) {
+		for(i = 0; i <= tabSize; i++) {
+			printf("%s", tab.filename[i]);
+		}
 	}
 }

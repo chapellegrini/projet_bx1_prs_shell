@@ -1,0 +1,98 @@
+\documentclass[12pt]{article}
+\usepackage [utf8]{inputenc}
+\usepackage [T1]{fontenc}
+\usepackage [francais]{babel}
+
+\author{LABBE Emeric, NERESTAN Clément, Pellegrini Charles}
+\title{Rapport projet Programmation Système}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage
+\section{Commandes internes}
+\subsection{echo}
+
+\subsection{date}
+
+\subsection{cd}
+
+\subsection{pwd}
+
+\subsection{history}
+
+\subsection{kill}
+
+\subsection{exit}
+
+\newpage
+\section{Remote Shell}
+\subsection{Gestion d'une liste de machines (add, remove, list)}
+
+\subsection{Exécution sur un unique shell faussement distant}
+
+\subsection{Exécution sur plusieurs shell distants avec ssh}
+
+\subsection{Affichage dans des fenetres séparées avec xcat.sh}
+
+\newpage
+\section{Expressions}
+\subsection{expression ; expression}
+Séquences d'instructions.
+\\
+e->type = SEQUENCE
+
+\subsection{expression || expression}
+Evaluation de la première expression, si celle ci retourne 0 (est considérée comme vraie), la suivante ne s'exécute pas.
+\\
+e->type = SEQUENCE\_OU
+
+\subsection{expression \& \& expression}
+Les deux expressions doivent etre vraies.
+\\
+e->type = SEQUENCE\_ET
+
+\subsection{(expression)}
+Création d'un sous shell.
+\\
+e->type = SOUS\_SHELL
+
+\subsection{expression \&}
+Tache en arrière plan.
+\\
+e->type = BG
+
+\subsection{expression | expression}
+Pipe.
+\\
+e->type = PIPE
+
+\subsection{expression > fichier}
+Redirection de la sortie.
+\\
+e->type = REDIRECTION\_O
+
+\subsection{expression < fichier}
+Redirection de l'entrée.
+\\   
+e->type = REDIRECTION\_I
+
+\subsection{expression >> fichier}
+Redirection de la sortie en mode APPEND.   
+\\ 
+e->type = REDIRECTION\_A   
+
+\subsection{expressions récursives}
+Toutes les expressions sont récursives.
+
+\newpage
+\section{Bilan}
+
+\newpage
+\section{Apport du projet}
+Ce projet nous a permis d'utiliser tout ce qu'on nous avons appris cette année en programmation système, et de voir concretement comment cela se passe dans un shell.
+Nous avons approfondi nos connaissances sur la gestion des processus, notament l'utilisation du fork et la gestion des redirections des entrées et sorties.
+Nou avons pu aussi revoir les différents signaux ainsi que leur utilisation en fonction du besoin.
+
+\end{document}
