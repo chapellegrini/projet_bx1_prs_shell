@@ -54,7 +54,7 @@ void cmdKill(char** c){
 }
 
 void cmdEcho(char** c){
-  printf("%s",c);
+  printf("%s\n",c[0]);
 }
 
 void cmdCd(char** c){
