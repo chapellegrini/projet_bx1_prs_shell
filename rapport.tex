@@ -12,6 +12,7 @@
 
 \newpage
 \section{Commandes internes}
+
 \subsection{echo}
 
 \subsection{date}
@@ -38,10 +39,15 @@
 
 \newpage
 \section{Expressions}
+On utilise deux fonctions, evaluer\_expr et exec\_expr.
+La fonction evaluer va faire un fork et va appeller exec. La fonction exec va évaluer le type de l'expression et va adapter son comportement à celle ci.
+
 \subsection{expression ; expression}
 Séquences d'instructions.
 \\
 e->type = SEQUENCE
+
+Chaque instruction séparée par ; est traitée.
 
 \subsection{expression || expression}
 Evaluation de la première expression, si celle ci retourne 0 (est considérée comme vraie), la suivante ne s'exécute pas.
@@ -54,7 +60,7 @@ Les deux expressions doivent etre vraies.
 e->type = SEQUENCE\_ET
 
 \subsection{(expression)}
-Création d'un sous shell.
+Création d'un sous shell dans lequel va s'exécuter l'expression.
 \\
 e->type = SOUS\_SHELL
 
@@ -64,17 +70,17 @@ Tache en arrière plan.
 e->type = BG
 
 \subsection{expression | expression}
-Pipe.
+Pipe des expressions.
 \\
 e->type = PIPE
 
 \subsection{expression > fichier}
-Redirection de la sortie.
+Redirection de la sortie vers le fichier spécifié.
 \\
 e->type = REDIRECTION\_O
 
 \subsection{expression < fichier}
-Redirection de l'entrée.
+Redirection de l'entrée du fichier vers l'entrée standard.
 \\   
 e->type = REDIRECTION\_I
 
@@ -93,6 +99,6 @@ Toutes les expressions sont récursives.
 \section{Apport du projet}
 Ce projet nous a permis d'utiliser tout ce qu'on nous avons appris cette année en programmation système, et de voir concretement comment cela se passe dans un shell.
 Nous avons approfondi nos connaissances sur la gestion des processus, notament l'utilisation du fork et la gestion des redirections des entrées et sorties.
-Nou avons pu aussi revoir les différents signaux ainsi que leur utilisation en fonction du besoin.
+Nous avons pu aussi revoir les différents signaux ainsi que leur utilisation en fonction du besoin.
 
 \end{document}
