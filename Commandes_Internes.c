@@ -3,6 +3,7 @@
 #include "unistd.h"
 #include "signal.h"
 #include "stdio.h"
+#include <time.h>
 
 /*
 Fonction utilitaire 
@@ -86,4 +87,25 @@ void cmdPwd(char** c){
   char* tmp = get_current_dir_name();
   printf("%s",tmp);
   free(tmp);
+}
+
+void cmdGetHostName(char** c){
+  char name[256];
+  int i = gethostname(name, sizeof(name));
+  if(i!=0)
+    perror("errno");
+  else{
+    printf("%s",name);
+  }
+}
+
+void cmdDate(char** c){
+  time_t t = time(NULL);
+  struct tm *date = localtime(&t);
+  char* param = "%a";
+  if(c[0]!=0)
+    param=getParam(c[0]);
+  char str[256];
+  strftime(str,sizeof(str),param,date);
+  printf("%s \n",str);
 }
