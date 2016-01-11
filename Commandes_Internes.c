@@ -75,7 +75,7 @@ int cmdHostname(char** c){
     if(i!=0)
       perror("gethostname");
     else{
-      printf("%s",name);
+      printf("%s \n",name);
     } 
   }
   else{
