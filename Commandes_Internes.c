@@ -25,7 +25,7 @@ int cmdExit(char** c){ //TODO notice me sempai Pellegrini
 int cmdKill(char** c){
   int n;
   int opt;
-  char* param  = "9";
+  char* param  = "15";
   if(c[0] == 0)
     return EXIT_FAILURE;
   int i = 0;

@@ -1,7 +1,9 @@
-\documentclass[12pt]{article}
+\documentclass[12pt]{report}
 \usepackage [utf8]{inputenc}
 \usepackage [T1]{fontenc}
-\usepackage [francais]{babel}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{graphicx}
 
 \author{LABBE Emeric, NERESTAN Clément, Pellegrini Charles}
 \title{Rapport projet Programmation Système}
@@ -14,18 +16,24 @@
 \section{Commandes internes}
 
 \subsection{echo}
-Renvoie la chaine de caractère qui vient d'etre entrée.
+Renvoie la chaîne de caractère qui vient d’être entrée.
 
 \subsection{date}
-
+Retourne la date et l'heure au format commun en France (Jour mois Année heure)
 \subsection{cd}
+Redirige le répertoire courant vers le dossier donnée en paramètre. Ou remonte au précédent en utilisant ".." 
 
+Cette commande Interne aura été plus simple que prévu à créer car au début nous pensions qu'il fallait mémoriser le répertoire courant actuel et modifié la chaîne de caractère. Nous pensions aussi qu'il fallait modifier la chaîne de caractère si le paramètre était "..". Nous étions donc partie pour gérer tout cela puis nous avons apprit que l'appel chdir gère tout cela.
 \subsection{pwd}
 Récupère le répertoire actuel avec la commande get\_current\_dir\_name() et l'affiche.
 
 \subsection{history}
+Retourne l'historique des commande entrées. Pour cela nous avons utiliser la librairie readline/history .
 
 \subsection{kill}
+Envoie un signal (par defaut Term) mis en option (uniquement via numéro du signal) au(x) PID donné(s) en paramètre. On peux aussi entrer "Kill-l" pour voir la liste de tout les signaux que l'on peux envoyer.
+
+La plus grosse difficulté dans l'implémentation de cette commande interne ne fut pas l'utilisation de l'appel système Kill que nous avions déjà utilisé en cours mais la gestion des chaînes de caractère.
 
 \subsection{exit}
 Quitte le shell en transmettant le code de retour (ici atoi(c[0]))
