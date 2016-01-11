@@ -18,31 +18,22 @@ void verifier(int cond, char *s){
 void cmd(char **arg){
   extern char **environ;
 
-  if(!strcmp(arg[0], "echo")){
+  if(!strcmp(arg[0], "echo"))
     cmdEcho(&(arg[1]));
-    printf("test\n");
-  }
-//  else if(!strcmp(arg[0], "date")){
-
-//  }
-  else if(!strcmp(arg[0], "cd")){
-
-  }
-  else if(!strcmp(arg[0], "pwd")){
-
-  }
-//  else if(!strcmp(arg[0], "history")){
-
-//  }
-//  else if(!strcmp(arg[0], "hostname")){
-
-//  }
-  else if(!strcmp(arg[0], "kill")){
-
-  }
-  else if(!strcmp(arg[0], "exit")){
-
-  }
+//  else if(!strcmp(arg[0], "date"))
+//    cmdDate(&(arg[1]));
+  else if(!strcmp(arg[0], "cd"))
+    cmdCd(&(arg[1]));
+  else if(!strcmp(arg[0], "pwd"))
+    cmdPwd(&(arg[1]));
+//  else if(!strcmp(arg[0], "history"))
+//    cmdHistory(&(arg[1]));
+//  else if(!strcmp(arg[0], "hostname"))
+//    cmdHostname(&arg[1]));
+  else if(!strcmp(arg[0], "kill"))
+    cmdKill(&(arg[1]));
+  else if(!strcmp(arg[0], "exit"))
+    cmdExit(&(arg[1]));
   else{
     execvp(arg[0], arg);
     //execve(arg[0], arg, environ);
