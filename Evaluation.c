@@ -72,7 +72,7 @@ int exec_expr(Expression *e){
     close(fd);
     exec_expr(e->gauche);
   }
-  else if(e->type == REDIRECTION_O){ // 2>
+  else if(e->type == REDIRECTION_E){ // 2>
     fd = open(e->arguments[0], O_CREAT | O_WRONLY, 0644);// WIP?
     dup2(fd, 2);
     close(fd);
