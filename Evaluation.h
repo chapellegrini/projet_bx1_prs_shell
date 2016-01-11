@@ -4,5 +4,6 @@
 #include "Shell.h"
 
 extern int evaluer_expr(Expression *e);
+int exec_expr(Expression *e);
 
 #endif
