@@ -15,38 +15,29 @@ void verifier(int cond, char *s){
   }
 }
 
-void cmd(char **arg){
-  extern char **environ;
-
-  if(!strcmp(arg[0], "echo"))
-    cmdEcho(&(arg[1]));
-//  else if(!strcmp(arg[0], "date"))
-//    cmdDate(&(arg[1]));
-  else if(!strcmp(arg[0], "cd"))
-    cmdCd(&(arg[1]));
-  else if(!strcmp(arg[0], "pwd"))
-    cmdPwd(&(arg[1]));
-//  else if(!strcmp(arg[0], "history"))
-//    cmdHistory(&(arg[1]));
-//  else if(!strcmp(arg[0], "hostname"))
-//    cmdHostname(&arg[1]));
-  else if(!strcmp(arg[0], "kill"))
-    cmdKill(&(arg[1]));
-  else if(!strcmp(arg[0], "exit"))
-    cmdExit(&(arg[1]));
-  else{
-    execvp(arg[0], arg);
-    //execve(arg[0], arg, environ);
-    perror("exec");
-  }
-  exit(1);
-}
-
 
 int evaluer_expr(Expression *e){
   pid_t sonPid;
   int status;
 
+  if(e->type == SIMPLE){
+    if(!strcmp(e->arguments[0], "echo"))
+      return cmdEcho(&(e->arguments[1]));
+//  else if(!strcmp(arg[0], "date"))
+//    cmdDate(&(arg[1]));
+    else if(!strcmp(e->arguments[0], "cd"))
+      return cmdCd(&(e->arguments[1]));
+    else if(!strcmp(e->arguments[0], "pwd"))
+      return cmdPwd(&(e->arguments[1]));
+//  else if(!strcmp(arg[0], "history"))
+//    cmdHistory(&(arg[1]));
+//  else if(!strcmp(arg[0], "hostname"))
+//    cmdHostname(&arg[1]));
+    else if(!strcmp(e->arguments[0], "kill"))
+      return cmdKill(&(e->arguments[1]));
+    else if(!strcmp(e->arguments[0], "exit"))
+      return cmdExit(&(e->arguments[1]));
+  }
   sonPid = fork();
   if(!sonPid)
     exit(exec_expr(e));
@@ -62,7 +53,9 @@ int exec_expr(Expression *e){
   pid_t sonPid;
 
   if(e->type == SIMPLE){
-    cmd(e->arguments);
+    execvp(e->arguments[0], e->arguments);//or execve with "extern char **environ"
+    perror("exec");
+    return 1;//TODO : fail avec un masque
   }
   else if(e->type == REDIRECTION_O){ // >
     fd = open(e->arguments[0], O_CREAT | O_WRONLY, 0644);// WIP?
@@ -108,7 +101,7 @@ int exec_expr(Expression *e){
     pid_t sonPid;
     sonPid = fork();
     if(!sonPid)
-      exec_expr(e);//TODO récupéré par init?
+      exec_expr(e->gauche);//TODO récupéré par init?
     return sonPid;
   }
   else if(e->type == SEQUENCE){ // ;

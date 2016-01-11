@@ -214,25 +214,21 @@ my_yyparse(void)
       `--------------------------------------------------------------------------------------*/
 
 
-int
-main (int argc, char **argv) 
-{
-
-  // faire en sorte qu'interactive_mode = 0 lorsque le shell est distant 
-  
-  if (interactive_mode)
-    {
-      using_history();
-    }
-  else
-    {
-      //  mode distant 
-    }
+int main (int argc, char **argv){
+  int status = 0;
+  // faire en sorte qu'interactive_mode = 0 lorsque le shell est distant
+  if (interactive_mode){
+    using_history();
+  }
+  else{
+    //  mode distant
+  }
   
   while (1){
-    if (my_yyparse () == 0) {  /* L'analyse a abouti */   
+    if (my_yyparse () == 0) {  /* L'analyse a abouti */
       afficher_expr(ExpressionAnalysee);
       fflush(stdout);
+      status = evaluer_expr(ExpressionAnalysee);
       expression_free(ExpressionAnalysee);
     }
     else {
