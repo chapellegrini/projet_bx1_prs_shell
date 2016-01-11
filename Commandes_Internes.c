@@ -63,7 +63,9 @@ int cmdKill(char** c){
 }
 
 int cmdEcho(char** c){
-  printf("%s\n",c[0]);
+  int i = 0;
+  while(c[i] != 0)
+    printf("%s\n",c[i++]);
   return;
 }
 
