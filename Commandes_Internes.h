@@ -7,4 +7,6 @@ void cmdKill(char** c);
 void cmdEcho(char** c);
 void cmdCd(char** c);
 void cmdPwd(char** c);
+void cmdGetHostName(char** c);
+void cmdDate(char** c);
 #endif
