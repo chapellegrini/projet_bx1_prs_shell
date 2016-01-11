@@ -59,7 +59,7 @@ exit(exec_expr(e));
 \end{verbatim}
 fait que le fils se quittera forcement après l'appel à exec\_expr.
 \newline Le père, lui, appèle directement waitpid avec le pid du fils.
-ainsi, il ne peut pas y avoir de processus zombie : le fils est récupéré par le père,
+Ainsi, il ne peut pas y avoir de processus zombie : le fils est récupéré par le père,
 et les processus éventuellement crées par le fils seront récupérés par init.\newline
 Cette implementation a un autre avantage : on ne redirige les descripteurs de fichiers que des processus fils,
 il n'y a pas besoin de les sauvegarder avant de les modifier.
@@ -116,12 +116,9 @@ Redirection de la sortie en mode APPEND.
 
 
 \newpage
-\section{Bilan}
-
-\newpage
-\section{Apport du projet}
+\section{Bilan et apport du projet}
 Ce projet nous a permis d'utiliser tout ce qu'on nous avons appris cette année en programmation système, et de voir concretement comment cela se passe dans un shell.
-Nous avons approfondi nos connaissances sur la gestion des processus, notament l'utilisation du fork et la gestion des redirections des entrées et sorties.
+Nous avons approfondi nos connaissances sur la gestion des processus, notament l'utilisation du fork et la gestion des redirections des entrées et sorties. Nous avons également pu découvrir de nouveaux appels systèmes, en particulier ceux utilisés pour les commandes internes.
 Nous avons pu aussi revoir les différents signaux ainsi que leur utilisation en fonction du besoin.
 
 \end{document}
