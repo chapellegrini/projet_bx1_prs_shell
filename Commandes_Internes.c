@@ -3,6 +3,7 @@
 #include "unistd.h"
 #include "signal.h"
 #include "stdio.h"
+#include "stdlib.h"
 #include <time.h>
 
 /*
@@ -46,10 +47,11 @@ int cmdKill(char** c){
   int opt;
   char* param = "SIGKILL";
   if(c[0] == 0)
-    return ;
+    return EXIT_FAILURE;
   int i = 0;
   if (c[0][0] == '-'){
     param = getParam(c[0]);
+    printf("%s",param);
     i++;
   }
   if (param == "l"){
@@ -59,25 +61,25 @@ int cmdKill(char** c){
     int PID = atoi(c[i]);
     kill(PID,atoi(param));
   }
-  return;
+  return EXIT_SUCCESS;
 }
 
 int cmdEcho(char** c){
   printf("%s\n",c[0]);
-  return;
+  return EXIT_SUCCESS;
 }
 
 int cmdCd(char** c){
   chdir(c[0]);
   perror("cd");
-  return;
+  return EXIT_SUCCESS;
 }
 
 int cmdPwd(char** c){
   char* t = get_current_dir_name();
   printf("%s",t);
   free(t);
-  return;
+  return EXIT_SUCCESS;
 }
 
 int cmdGetHostName(char** c){
@@ -88,7 +90,7 @@ int cmdGetHostName(char** c){
   else{
     printf("%s",name);
   }
-  return;
+  return EXIT_SUCCESS;
 }
 
 int cmdDate(char** c){
@@ -100,5 +102,5 @@ int cmdDate(char** c){
   char str[256];
   strftime(str,sizeof(str),param,date);
   printf("%s \n",str);
-  return;
+  return EXIT_SUCCESS;
 }
