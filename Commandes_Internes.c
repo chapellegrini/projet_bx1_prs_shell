@@ -5,7 +5,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include <time.h>
-
+#include <readline/history.h>
 
 
 
@@ -51,7 +51,7 @@ int cmdEcho(char** c){
   int i = 0;
   while(c[i] != 0)
     printf("%s\n",c[i++]);
-  return;
+  return EXIT_SUCCESS;
 }
 
 int cmdCd(char** c){
@@ -67,7 +67,7 @@ int cmdPwd(char** c){
   return EXIT_SUCCESS;
 }
 
-int cmdGetHostName(char** c){
+int cmdHostname(char** c){
   char name[256];
   int i = gethostname(name, sizeof(name));
   if(i!=0)
@@ -83,9 +83,17 @@ int cmdDate(char** c){
   struct tm *date = localtime(&t);
   char* param = "%a";
   if(c[0]!=0)
-    param=getParam(c[0]);
+    param = c[0]+1;
   char str[256];
   strftime(str,sizeof(str),param,date);
   printf("%s \n",str);
+  return EXIT_SUCCESS;
+}
+
+int cmdHistory(char** c){
+  HIST_ENTRY **history = history_list();
+  for(int i = 0;history[i] != NULL; i++){
+    printf("%d : %s \n",i,history[i]->line);
+  }
   return EXIT_SUCCESS;
 }

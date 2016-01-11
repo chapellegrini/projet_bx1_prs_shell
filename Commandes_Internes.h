@@ -7,6 +7,7 @@ int cmdKill(char** c);
 int cmdEcho(char** c);
 int cmdCd(char** c);
 int cmdPwd(char** c);
-int cmdGetHostName(char** c);
+int cmdHostname(char** c);
 int cmdDate(char** c);
+int cmdHistory(char** c);
 #endif

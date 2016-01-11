@@ -6,6 +6,9 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 
 
 void verifier(int cond, char *s){
@@ -23,16 +26,16 @@ int evaluer_expr(Expression *e){
   if(e->type == SIMPLE){
     if(!strcmp(e->arguments[0], "echo"))
       return cmdEcho(&(e->arguments[1]));
-    else if(!strcmp(arg[0], "date"))
-      cmdDate(&(arg[1]));
+    else if(!strcmp(e->arguments[0], "date"))
+      return cmdDate(&(e->arguments[1]));
     else if(!strcmp(e->arguments[0], "cd"))
       return cmdCd(&(e->arguments[1]));
     else if(!strcmp(e->arguments[0], "pwd"))
       return cmdPwd(&(e->arguments[1]));
-    else if(!strcmp(arg[0], "history"))
-      cmdHistory(&(arg[1]));
-    else if(!strcmp(arg[0], "hostname"))
-      cmdHostname(&arg[1]));
+    else if(!strcmp(e->arguments[0], "history"))
+      return cmdHistory(&(e->arguments[1]));
+    else if(!strcmp(e->arguments[0], "hostname"))
+      return cmdHostname(&(e->arguments[1]));
     else if(!strcmp(e->arguments[0], "kill"))
       return cmdKill(&(e->arguments[1]));
     else if(!strcmp(e->arguments[0], "exit"))
