@@ -48,8 +48,10 @@ int cmdKill(char** c){
 }
 
 int cmdEcho(char** c){
-  printf("%s\n",c[0]);
-  return EXIT_SUCCESS;
+  int i = 0;
+  while(c[i] != 0)
+    printf("%s\n",c[i++]);
+  return;
 }
 
 int cmdCd(char** c){
