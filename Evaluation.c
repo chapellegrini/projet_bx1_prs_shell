@@ -101,7 +101,7 @@ int exec_expr(Expression *e){
     pid_t sonPid;
     sonPid = fork();
     if(!sonPid)
-      exec_expr(e);//TODO récupéré par init?
+      exec_expr(e->gauche);//TODO récupéré par init?
     return sonPid;
   }
   else if(e->type == SEQUENCE){ // ;
