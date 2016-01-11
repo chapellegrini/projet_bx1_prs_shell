@@ -1,0 +1,118 @@
+\documentclass[12pt]{article}
+\usepackage [utf8]{inputenc}
+\usepackage [T1]{fontenc}
+\usepackage [francais]{babel}
+
+\author{LABBE Emeric, NERESTAN Clément, Pellegrini Charles}
+\title{Rapport projet Programmation Système}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage
+\section{Commandes internes}
+
+\subsection{echo}
+Renvoie la chaine de caractère qui vient d'etre entrée.
+
+\subsection{date}
+
+\subsection{cd}
+
+\subsection{pwd}
+Récupère le répertoire actuel avec la commande get\_current\_dir\_name() et l'affiche.
+
+\subsection{history}
+
+\subsection{kill}
+
+\subsection{exit}
+Quitte le shell en transmettant le code de retour (ici atoi(c[0]))
+
+\newpage
+\section{Remote Shell}
+\subsection{Gestion d'une liste de machines (add, remove, list)}
+
+\subsection{Exécution sur un unique shell faussement distant}
+
+\subsection{Exécution sur plusieurs shell distants avec ssh}
+
+\subsection{Affichage dans des fenetres séparées avec xcat.sh}
+
+\newpage
+\section{Expressions}
+On utilise deux fonctions, evaluer\_expr et exec\_expr.
+La fonction evaluer\_expr regarde si l'expression est une commande interne : dans ce cas elle appèle directement
+la fonction correspondante. Autrement elle se fork, et la ligne 
+\begin{verbatim}
+exit(exec_expr(e));
+\end{verbatim}
+fait que le fils se quittera forcement après l'appel à exec\_expr.
+\newline Le père, lui, appèle directement waitpid avec le pid du fils.
+ainsi, il ne peut pas y avoir de processus zombie : le fils est récupéré par le père,
+et les processus éventuellement crées par le fils seront récupérés par init.\newline
+Cette implementation a un autre avantage : on ne redirige les descripteurs de fichiers que des processus fils,
+il n'y a pas besoin de les sauvegarder avant de les modifier.
+
+
+\subsection{instruction simple}
+e->type == SIMPLE\\
+L'expression est à executer directement.
+Le processus ayant déjà été forké, il suffit d'appeler execvp.
+
+\subsection{expression ; expression}
+e->type == SEQUENCE\\
+L'expression de gauche est passée en paramètre à evaluer\_expr, celle de droite à exec\_expr.
+Dans le cas ou celle de gauche est une commande interne, elle peut modifier le comportement de celle de droite
+(par exemple cd peut changer le répertoire courant de l'expression de droite)
+
+\subsection{expression || expression}
+e->type == SEQUENCE\_OU\\
+Évaluation de la première expression, si celle-ci retourne 0 (est considérée comme vraie),
+la suivante ne s'exécute pas. Encore une fois, l'expression de gauche est passée en paramètre à evaluer\_expr,
+celle de droite à exec\_expr.
+
+\subsection{expression \& \& expression}
+e->type == SEQUENCE\_ET\\
+Comme pour SEQUENCE\_OU, mais on évalue la première expression,
+si elle est fausse on retourne l'évaluation de la deuxième, sinon on ne l'évalue pas mais on retourne vrai.
+
+\subsection{(expression)}
+e->type == SOUS\_SHELL\\
+Création d'un sous shell dans lequel va s'exécuter l'expression. Ici, on appèle simplement evaluer\_expr.
+
+\subsection{expression \&}
+e->type == BG\\
+Tache en arrière plan. On fork et le fils appèle exec\_expr, le père n'attend pas le résultant.
+Le père se terminant de suite après, le fils est récupéré par init.
+
+\subsection{expression | expression}
+e->type == PIPE\\
+Pipe des expressions. Le père et le fils appèlent tous les deux exec\_expr et non evaluer\_expr,
+les forker une fois de plus serait inutile.
+
+\subsection{expression > fichier}
+e->type == REDIRECTION\_O\\
+Redirection de la sortie vers le fichier spécifié.
+
+\subsection{expression < fichier}
+e->type == REDIRECTION\_I\\
+Redirection du contenu du fichier vers l'entrée standard.
+   
+
+\subsection{expression >> fichier}
+e->type == REDIRECTION\_A\\
+Redirection de la sortie en mode APPEND.   
+
+
+\newpage
+\section{Bilan}
+
+\newpage
+\section{Apport du projet}
+Ce projet nous a permis d'utiliser tout ce qu'on nous avons appris cette année en programmation système, et de voir concretement comment cela se passe dans un shell.
+Nous avons approfondi nos connaissances sur la gestion des processus, notament l'utilisation du fork et la gestion des redirections des entrées et sorties.
+Nous avons pu aussi revoir les différents signaux ainsi que leur utilisation en fonction du besoin.
+
+\end{document}
