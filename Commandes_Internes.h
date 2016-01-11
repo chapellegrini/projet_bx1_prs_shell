@@ -2,11 +2,11 @@
 #define COMINTERN_H
 #include "Shell.h"
 
-void cmdExit(char** c);
-void cmdKill(char** c);
-void cmdEcho(char** c);
-void cmdCd(char** c);
-void cmdPwd(char** c);
-void cmdGetHostName(char** c);
-void cmdDate(char** c);
+int cmdExit(char** c);
+int cmdKill(char** c);
+int cmdEcho(char** c);
+int cmdCd(char** c);
+int cmdPwd(char** c);
+int cmdGetHostName(char** c);
+int cmdDate(char** c);
 #endif
